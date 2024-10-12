@@ -1,4 +1,4 @@
-# 📚 Project Name
+# 📚 AI Helping Assistant
 
 ![GitHub stars](https://img.shields.io/github/stars/SamManoli975/HackTrinity) 
 ![License](https://img.shields.io/github/license/SamManoli975/HackTrinity) 
