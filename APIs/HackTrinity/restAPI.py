@@ -14,10 +14,10 @@ def hello():
     # Get the text to summarise from the request JSON
     data = request.get_json()
     print(data)
-    summarising_input = data.get('text', '')  # Default to empty string if not provided
+    #summarising_input = data.get('text', '')  # Default to empty string if not provided
 
     # Call the summarization function
-    summary = summarise_text(summarising_input)
+    summary = summarise_text(data)
     print(summary)
     # Return the summary as a JSON response
     return jsonify({"summary": summary}) 

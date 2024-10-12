@@ -40,7 +40,8 @@ function App() {
 
       if (response.ok) {
         const result = await response.json();
-        setResponseMessage(result.summary); // Store the summary for the overlay
+      
+        setResponseMessage(response.summary); // Store the summary for the overlay
         console.log(`Summary: ${result.summary}`);
         setInputValue('');
       } else {
