@@ -10,6 +10,7 @@ function App() {
   const [error, setError] = useState('');
   const [selectedCard, setSelectedCard] = useState(null);
   const [data, setData] = useState([]); // Renamed to lowercase `data` for convention
+  const [responseMessage, setResponseMessage] = useState('');
 
   // Set initial data when the component mounts
   useEffect(() => {
@@ -44,28 +45,32 @@ function App() {
     setInputValue(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevent the default form submission
+
+    const postData = {
+      userInput: inputValue, // Create an object to send to the server
+    };
 
     try {
-      const response = await fetch('http://127.0.0.1:5000/manipulate', {
-        method: 'POST',
+      const response = await fetch('localhost: 5001', {
+        method: 'POST', // Specify the request method
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json', // Set the content type to JSON
         },
-        body: JSON.stringify({ input: inputValue }),
+        body: JSON.stringify(postData), // Convert the data to a JSON string
       });
 
-      const data = await response.json();
-
       if (response.ok) {
-        setManipulatedValue(data.result); // Set the result
+        const result = await response.json(); // Parse the JSON response
+        setResponseMessage(`Data sent successfully: ${result.message}`); // Update response message
+        setInputValue(''); // Clear the input after submission
       } else {
-        setError(data.error || 'An error occurred');
+        setResponseMessage('Error sending data'); // Handle response error
       }
-    } catch (err) {
-      setError('Failed to connect to the server');
+    } catch (error) {
+      console.error('Error:', error); // Log any errors
+      setResponseMessage('Error sending data'); // Handle catch error
     }
   };
 
