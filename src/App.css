@@ -1,10 +1,70 @@
-.App {
+
+.body{
   text-align: center;
+  background-color: rgb(36, 1, 36);
+  min-height: 100vh;
+  margin: 0; /* Remove default margin from body */
+  padding: 0; /* Remove default padding from body */
 }
 
-.App-header {
-  margin: 20px auto;
+
+
+.searchbar {
+  padding: 10px;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 5px; /* Border radius for the search bar */
+  border: 1px solid #ccc; /* Optional: add a border */
+  width: 60%; /* Adjust width as necessary */
 }
+
+.search button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border-radius: 5px; /* Border radius for the submit button */
+  background-color: #61dafb; /* Button background color */
+  color: white; /* Button text color */
+  border: none; /* Remove default border */
+  cursor: pointer; /* Change cursor to pointer */
+}
+
+.search button:hover {
+  background-color: #21a1f1; /* Change background on hover */
+}
+ 
+.App-header {
+  margin: 0; /* Set margin to zero */
+  padding: 0; /* Set padding to zero if necessary */
+}
+
+.searchbar {
+  padding: 10px;
+  font-size: 16px;
+  text-align: center;
+  border-radius: 5px; /* Border radius for the search bar */
+  border: 1px solid #ccc; /* Optional: add a border */
+  width: 60%; /* Adjust width as necessary */
+}
+
+.search button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border-radius: 5px; /* Border radius for the submit button */
+  background-color: #61dafb; /* Button background color */
+  color: white; /* Button text color */
+  border: none; /* Remove default border */
+  cursor: pointer; /* Change cursor to pointer */
+}
+
+.search{
+  position: sticky; /* Makes the element sticky */
+  top: 0; /* Sticks the element to the top of the viewport */
+  background-color: rgb(16, 0, 16); /* Semi-transparent background */
+  padding: 10px; /* Add padding around the search bar */
+  z-index: 1000; /* Ensures it stays above other elements */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: adds a slight shadow */
+}
+
 
 /* This sets up the grid layout with 3 columns */
 .card-container {
@@ -16,19 +76,23 @@
   margin: 0 auto;
 }
 
-/* Styles for individual cards */
+
 .card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 16px;
-  background-color: #f9f9f9;
-  transition: box-shadow 0.3s ease;
+  border: 1px solid #ddd; /* Light gray border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 16px; /* Space inside the card */
+  background-color: #f9f9f9; /* Light background color */
+  transition: box-shadow 0.3s ease, transform 0.3s ease; /* Smooth transition for shadow and transform */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Initial shadow */
 }
 
 /* Hover effect for cards */
 .card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
+  transform: translateY(-4px); /* Lift effect */
 }
+
+
 
 /* Card title styles */
 .card h2 {

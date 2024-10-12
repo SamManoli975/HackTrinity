@@ -15,6 +15,5 @@ const Overlay = ({ selectedCard, closeOverlay }) => {
     </div>
   );
 };
-{/*export  */}
 
 export default Overlay; 
