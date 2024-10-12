@@ -1,11 +1,12 @@
 # Getting Started with Create React App
 
+Your task is to generate a short summary of a law case in at most 150 words taking an unbiased view taking account points in favour and against. Do not include any indicator tokens that indicate this is a summary. Put it as a single paragraph
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
 In the project directory, you can run:
-
 ### `npm start`
 
 Runs the app in the development mode.\
