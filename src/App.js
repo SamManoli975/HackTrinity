@@ -53,7 +53,7 @@ function App() {
     };
 
     try {
-      const response = await fetch('localhost: 5001', {
+      const response = await fetch('http://localhost:5001/hello', {
         method: 'POST', // Specify the request method
         headers: {
           'Content-Type': 'application/json', // Set the content type to JSON
