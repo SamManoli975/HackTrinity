@@ -1,19 +1,17 @@
-// src/components/overlay.js
 import React from 'react';
-import '../App.css'; // Add your CSS file for styling if needed
 
-const Overlay = ({ selectedCard, closeOverlay }) => {
-  if (!selectedCard) return null; // Don't render anything if no card is selected
+const Overlay = ({ selectedCard, closeOverlay, summary }) => {
+  if (!selectedCard) return null; // If no card is selected, return null
 
   return (
     <div className="overlay" onClick={closeOverlay}>
       <div className="overlay-content" onClick={(e) => e.stopPropagation()}>
         <h2>{selectedCard.title}</h2>
-        <p>{selectedCard.summary}</p>
+        <p>{summary}</p> {/* Display the summary in the overlay */}
         <button onClick={closeOverlay}>Close</button>
       </div>
     </div>
   );
 };
 
-export default Overlay; 
+export default Overlay;
