@@ -2,116 +2,110 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import Card from './components/card'; 
 import Overlay from './components/overlay';
-import SearchForm from './components/search'
-
-const initialCardData = [
-  { title: "Card 1", summary: "This is a summary of Card 1." },
-  { title: "Card 2", summary: "This is a summary of Card 2." },
-  { title: "Card 3", summary: "This is a summary of Card 3." }
-];
 
 function App() {
   const [inputValue, setInputValue] = useState('');
-  const [responseMessage, setResponseMessage] = useState('');
+  const [responseMessage, setResponseMessage] = useState([]);
   const [selectedCard, setSelectedCard] = useState(null);
   const [data, setData] = useState([]);
 
-  // Set initial card data when the component mounts
+  // Set initial data when the component mounts
   useEffect(() => {
-    setData(initialCardData);
-  }, []);
+    setData([
+      { title: "Card 2", summary: "This is a summary of Card 1." },
+      { title: "Card 2", summary: "This is a summary of Card 2." },
+      { title: "Card 3", summary: "This is a summary of Card 3." }
+    ]);
+  }, []); // Empty dependency array means this runs once after initial render
 
-  // Handles form input changes
-  const handleChange = (e) => setInputValue(e.target.value);
+  const handleChange = (e) => {
+    setInputValue(e.target.value);
+  };
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent default form submission
-    
+    event.preventDefault(); // Prevent the default form submission
+
     const postData = {
       userInput: inputValue,
     };
-  
+
     try {
-      const result = await sendDataToServer(postData); // Send data to server
-      handleServerResponse(result); // Handle the server response
+      const response = await fetch('http://localhost:5001/summarise', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(postData),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+      
+        setResponseMessage(result.similarities); // Store the summary for the overlay
+        console.log(`Summary: ${result.similarities}`);
+        setInputValue('');
+      } else {
+        setResponseMessage('Error sending data');
+      }
     } catch (error) {
-      handleError(error); // Handle any errors
-    } finally {
-      setInputValue(''); // Clear the input after the request
+      console.error('Error:', error);
+      setResponseMessage('Error sending data');
     }
   };
-  
-  // Helper function to send data to the server
-  const sendDataToServer = async (postData) => {
-    const response = await fetch('http://localhost:5001/hello', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(postData),
-    });
-  
-    if (!response.ok) {
-      throw new Error('Failed to send data');
-    }
-  
-    return response.json(); // Parse the JSON response
-  };
-  
-  // Helper function to handle the server response
-  const handleServerResponse = (result) => {
-    if (result && result.summary) {
-      setResponseMessage(result.summary); // Set the summary from the result
-      console.log(`Summary: ${result.summary}`);
-    } else {
-      setResponseMessage('Unexpected response format');
-    }
-  };
-  
-  // Helper function to handle errors
-  const handleError = (error) => {
-    console.error('Error:', error);
-    setResponseMessage('Error sending data');
-  };
-  
 
-  // handle clicing on a card
-  const handleCardClick = (card) => setSelectedCard(card);
+  const handleCardClick = (card) => {
+    setSelectedCard(card);
+  };
 
-  // handle closing the overlay
-  const closeOverlay = () => setSelectedCard(null);
+  const closeOverlay = () => {
+    setSelectedCard(null);
+  };
 
   return (
-    <div className="body">
-      <div className="App">
-        <header className="App-header">
-        <SearchForm
-            inputValue={inputValue}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
-          />
+    <div className="min-h-screen bg-slate-900">
+      <div className="bg-slate-900">
+          
+      <form class="max-w-md mx-auto dark pt-10" onSubmit={handleSubmit}>   
+        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+        <div class="relative">
+          <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+            </svg>
+          </div>
+          <input type="search" value={inputValue} onChange={handleChange} id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for AI verdict + Similar Cases..." required />
+          <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+        </div>
+      </form>
 
-          {/* Card Display */}
-          <div className="card-container">
-            {data.map((card, index) => (
-              <Card
-                key={index}
-                title={card.title}
-                summary={responseMessage}
+        <div className="card-container">
+            {/*data.map((card, index) => (
+              <Card 
+                key={index} 
+                title={card.title} 
+                summary={responseMessage} // Use the summary from the API response
                 onClick={() => handleCardClick(card)}
               />
-            ))}
+            ))*/
+            
+            responseMessage.map((x, index) => (
+              <Card 
+              summary={x.data} 
+              title={x.verdict}
+              key={index}
+              onClick={() => handleCardClick(x.data)}
+              />
+            ))
+            
+            
+            }
           </div>
 
-          {/* Overlay Display */}
-          {selectedCard && (
-            <Overlay 
-              selectedCard={selectedCard}
-              closeOverlay={closeOverlay}
-              summary={responseMessage}
-            />
-          )}
-        </header>
+          <Overlay 
+            selectedCard={selectedCard} 
+            closeOverlay={closeOverlay} 
+            summary={responseMessage} // Pass summary to Overlay
+          />
       </div>
     </div>
   );
