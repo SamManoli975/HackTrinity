@@ -5,6 +5,7 @@ import torch
 from langchain_chroma import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 
+from summarisation_api import summarise_text
 class Vector_Database():
     def __init__(self):
         ds = load_dataset("darrow-ai/USClassActions")
@@ -32,7 +33,8 @@ class Vector_Database():
         for doc in results:            
             if doc.metadata["verdict"] == "win":
                 total +=1
-            dic_results.append({"verdict": doc.metadata["verdict"],"data":doc.page_content})
+            data = summarise_text(doc.page_content)
+            dic_results.append({"verdict": doc.metadata["verdict"],"data":data})
 
         # Give the average verdict
         return ((total / similarity_count), dic_results)
