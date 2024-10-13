@@ -30,8 +30,10 @@ Front End Development
 Setting Up React Application: Use Create React App to scaffold the project.
 
 bash
-Copy code
-npx create-react-app verdict-predict
+### Example Code Snippet
+```npx create-react-app verdict-predict```
+
+
 Creating Components:
 
 SearchBar.js: Input for the user's legal argument.
