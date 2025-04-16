@@ -96,15 +96,13 @@ function App() {
               onClick={() => handleCardClick(x.data)}
               />
             ))
-            
-            
             }
           </div>
 
           <Overlay 
             selectedCard={selectedCard} 
             closeOverlay={closeOverlay} 
-            summary={responseMessage} // Pass summary to Overlay
+            summary={selectedCard} // Pass summary to Overlay
           />
       </div>
     </div>
